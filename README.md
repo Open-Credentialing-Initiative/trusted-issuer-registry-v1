@@ -19,8 +19,6 @@ The chosen approach is aiming to enforce the following policies:
 
 ## Architecture
 
-
-
 The smart contract containing the trusted issuer registry is deployed to the Ethereum blockchain and acts as a backend. It's state and methods can be accessed via an Ethereum node, e.g. an OCI owned one, that exposes all needed RPC methods or a service like [Infura](https://infura.io/).
 
 The following two sections will go into more detail on what both the smart contract and the frontend do and how they work.
@@ -65,3 +63,6 @@ The officially hosted frontends can be found here:
 
 A more in-depth description of the frontend, how it connects to the Ethereum blockchain, and how you can deploy it yourself can be found [here](./web3-frontend/README.md).
 
+## Setting up MetaMask as a Statekeeper
+
+## FAQ
