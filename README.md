@@ -19,15 +19,17 @@ The chosen approach is aiming to enforce the following policies:
 
 ## Architecture
 
-![architecture](./img/architecture.png)
+
 
 The smart contract containing the trusted issuer registry is deployed to the Ethereum blockchain and acts as a backend. It's state and methods can be accessed via an Ethereum node, e.g. an OCI owned one, that exposes all needed RPC methods or a service like [Infura](https://infura.io/).
 
 The following two sections will go into more detail on what both the smart contract and the frontend do and how they work.
 
+![architecture](./img/architecture.png)
+
 ### Smart Contract
 
-The main goal of the smart contract is to store and manage the list of trusted issuers respecting a governance protocol. A governance protocol is needed to make sure that only trusted entities can:
+The main goal of the smart contract is to store and manage the list of trusted issuers under the terms of a governance protocol. A governance protocol is needed to make sure that only trusted entities can:
 - Change the list of trusted issuers
 - Vote on the list of entities that can change the list of trusted issuers
 
@@ -35,14 +37,31 @@ The trusted entities that can manage the trusted issuer list are called "Stateke
 - Add/ remove a trusted issuer DID (no voting required)
 - Create a voting proposal to add/ remove a Statekeepers (80% approval of all Statekeepers needed)
 - Create a voting proposal to change approval rates (100% approval of all Statekeepers needed)
-- Vote for proposals (yae or nay)
+- Vote for proposals (yea or nay)
 - Enforce a voting proposal if enough Statekeepers approved it
 
 If a voting proposal got enough approvals, a Statekeeper can instruct the smart contract to enforce the proposal. This could be adding/ removing a trusted issuer DID or a Statekeeper from the contract state.
 
-A more in-depth description of the smart contract, how to modify it, and how you could deploy it yourself can be found [here](./contract/README.md).
+The officially deployed versions of the trusted issuer registry can be found here:
+- [Production (Mainnet)](#)
+- [Development (Ropsten)](#)
+- [Development (Ropsten, without Voting)](#)
+
+A more in-depth description of the smart contract code in Solidity, how to modify it, and how you can deploy it yourself can be found [here](./contract/README.md).
 
 ### Frontend
 
-The frontend is an easy-to-use web application that connects to the Smart Contract. It's purpose is to allow Statekeepers to easily add/ remove trusted issuer DIDs, create proposals, and vote on proposals in an easily digestible GUI.
+The frontend is an easy-to-use web application that connects to the Smart Contract. Its purpose is to allow Statekeepers to easily add/ remove trusted issuer DIDs, create proposals, and vote on proposals in an easily digestible GUI.
+
+![frontend](./img/frontend.png)
+
+It is a React app that uses web3.js to connect to an Ethereum wallet in the form of MetaMask. MetaMask is the bridge between the frontend and the smart contract on the Ethereum network and allows to retrieve or modify the state of the contract. Modification happen in the form of transactions to the smart contract that are signed and send via MetaMask in a user friendly way to the Ethereum blockchain. 
+
+MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent leaking private keys with which potential rouge actors could illegally modify the trusted issuer list.
+
+The officially hosted frontends can be found here:
+- [Trusted Issuer Registry Dashboard](#)
+- [Trusted Issuer Registry Dashboard (alt)](#)
+
+A more in-depth description of the frontend, how it connects to the Ethereum blockchain, and how you can deploy it yourself can be found [here](./web3-frontend/README.md).
 
