@@ -1,11 +1,12 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 contract TrustedIssuerList {
+    // Stores
     Proposal[] proposals;
     AddressStore statekeepers;
     DIDStore trustedIssuers;
 
-    // Minimum amount of votes in percentage of number of statekeepers
+    // Store for the acceptance rates of the proposals
     mapping(ProposalType => uint) neededAcceptanceRate;
 
     constructor() {
@@ -21,9 +22,9 @@ contract TrustedIssuerList {
     function createProposal(ProposalType _proposalType, address _statekeeper, uint _newRate, ProposalType _rateType) onlyStatekeepers public {
         Proposal memory proposal;
         proposal.proposalType = _proposalType;
-        proposal.statekeeper = _statekeeper;
-        proposal.rate = _newRate;
-        proposal.rateType = _rateType;
+        proposal.statekeeper = _statekeeper; // Statkeeper address if its a ADD_STATEKEEPER or REMOVE_STATEKEEPER proposal, otherwise use empty address "0x0000000000000000000000000000000000000000"
+        proposal.rate = _newRate; // new acceptance rate if its a CHANGE_ACCEPTANCE_RATE proposal, otherwise use 0
+        proposal.rateType = _rateType;  // proposal type you want to change if its a CHANGE_ACCEPTANCE_RATE proposal, otherwise use random proposal type
         proposal.state = State.IN_PROGRESS;
         proposals.push(proposal);
     }
@@ -41,15 +42,20 @@ contract TrustedIssuerList {
         }
     }
 
+    // If voting is finished, this will close the voting and execute the proposal if necessary amount votes is reached.
     function enforceProposal(uint _proposalId) public onlyStatekeepers neededVotesReached(_proposalId) {
         require(proposals[_proposalId].state == State.IN_PROGRESS, "Proposal was already enforced.");
         uint needed = getNeededVotes(_proposalId);
 
+        // We now know that enough votes (either yea or nay) have been cast.
+        // Set a new default state
         proposals[_proposalId].state = State.REJECTED;
 
         if (proposals[_proposalId].yea.length < needed) {
             return;
         }
+
+        // The vote was accepted by the statekeepers. Whatever the proposal type is, we will now enforce it.
 
         if (proposals[_proposalId].proposalType == ProposalType.ADD_STATEKEEPER) {
             proposals[_proposalId].state = State.ACCEPTED;
@@ -126,7 +132,7 @@ contract TrustedIssuerList {
         }
 
         int index = -1;
-        // You can't compare strings in Solidity. TODO: Cost comparison hashing vs byte array comparison
+        // You can't compare strings in Solidity -> compare hashes
         // https://ethereum.stackexchange.com/questions/45813/compare-strings-in-solidity
         for (uint i = 0; i < trustedIssuers.keys.length; i++) {
             if (keccak256(abi.encodePacked(trustedIssuers.keys[i])) == keccak256(abi.encodePacked(_issuerDID))) {
@@ -135,13 +141,15 @@ contract TrustedIssuerList {
         }
 
         if (index > -1) {
-            trustedIssuers.keys[uint(index)] = trustedIssuers.keys[trustedIssuers.keys.length - 1];
+        // Move to be delete element to last position and then pop it out -> this prevents "gaps" in the array
+        trustedIssuers.keys[uint(index)] = trustedIssuers.keys[trustedIssuers.keys.length - 1];
             trustedIssuers.keys.pop();
         } else {
             revert("This DID is not a Trusted Issuer!");
         }
     }
 
+    // This will be called by verifiers to get all trusted issuer DIDs
     function getTrustedIssuers() public view returns (string[] memory) {
         return trustedIssuers.keys;
     }
@@ -151,6 +159,8 @@ contract TrustedIssuerList {
         selfdestruct(payable(msg.sender));
     }
 
+    // Util functions
+
     function getNeededVotes(uint _proposalId) public view returns (uint neededVotes) {
         return((statekeepers.keys.length * neededAcceptanceRate[proposals[_proposalId].proposalType]) / 100);
     }
@@ -159,14 +169,18 @@ contract TrustedIssuerList {
         return(statekeepers.keys.length);
     }
 
+    // Structs and Enums
+
     enum State { ACCEPTED, REJECTED, IN_PROGRESS }
     enum StoreTypes{ STATEKEEPERS, TRUSTEDISSUERS }
 
+    // We can't get all keys of a map in Solidity -> we use it together with an array to get all keys
     struct AddressStore {
         mapping(address => bool) map;
         address[] keys;
     }
 
+    // We can't get all keys of a map in Solidity -> we use it together with an array to get all keys
     struct DIDStore {
         mapping(string => bool) map; // We store string to support every type of DID. Only did:ethr? -> address type sufficient
         string[] keys;
@@ -174,6 +188,8 @@ contract TrustedIssuerList {
 
     enum ProposalType{ ADD_STATEKEEPER, REMOVE_STATEKEEPER, CHANGE_ACCEPTANCE_RATE, RETIRE }
 
+    // Proposals have are a generic type that has fields for every possible propsal type.
+    // This also means that with some proposals, a few fields will be left empty and not used at all.
     // TODO: Think of if we should just create different proposal structs so we don't have to store all the data...
     struct Proposal {
         ProposalType proposalType;
@@ -184,6 +200,8 @@ contract TrustedIssuerList {
         address[] nay;
         State state;
     }
+
+    // Modifiers/ Middleware
 
     modifier onlyStatekeepers {
         require(statekeepers.map[msg.sender] == true, "Caller is not a statekeeper");

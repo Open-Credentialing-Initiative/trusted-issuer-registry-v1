@@ -2,7 +2,7 @@
 
 In a trusted and regulated ecosystem, a list of trusted issuing parties is needed. For this purpose, the OCI defined a secure, always-available, and self-governing mechanism to manage and retrieve a list of trusted Decentralized Identifiers (DIDs) belonging to trusted issuers. These issuers are trusted with issuing ATP and identity credentials while enforcing all needed regulations.
 
-For this purpose, an open, trustless, and decentralized network that is able to run arbitrary programs was chosen: The Ethereum network. The programs you can run on it are called "Smart Contracts". Those are self-contained programms that can store and manipulate their state.
+For this purpose, an open, trustless, and decentralized network that is able to run arbitrary programs was chosen: The Ethereum network. The programs you can run on it are called "Smart Contracts". Those are self-contained programs that can store and manipulate their state.
 
 This repository contains code and documentation for a trusted issuer registry smart contract and a frontend that connects to it.
 
@@ -16,14 +16,15 @@ The chosen approach is aiming to enforce the following policies:
 - Auditability: It should be possible to retrieve a previous state of the trusted issuer registry.
 - Security: Changes to the trusted issuer registry should only be made by trusted entities. For this, a governance protocol is defined which relies on strong cryptography enforce by the Ethereum network.
 
-
 ## Architecture
 
-The smart contract containing the trusted issuer registry is deployed to the Ethereum blockchain and acts as a backend. It's state and methods can be accessed via an Ethereum node, e.g. an OCI owned one, that exposes all needed RPC methods or a service like [Infura](https://infura.io/).
+The smart contract containing the trusted issuer registry is deployed to the Ethereum blockchain and acts as a backend. It's state and methods can be accessed via an Ethereum node, e.g., an OCI owned one, that exposes all needed RPC methods or a service like [Infura](https://infura.io/).
 
 The following two sections will go into more detail on what both the smart contract and the frontend do and how they work.
 
-![architecture](./img/architecture.png)
+![](./img/dark-architecture.png#gh-dark-mode-only)
+![](./img/light-architecture.png##gh-light-mode-only)
+
 
 ### Smart Contract
 
@@ -45,24 +46,16 @@ The officially deployed versions of the trusted issuer registry can be found her
 - [Development (Ropsten)](#)
 - [Development (Ropsten, without Voting)](#)
 
-A more in-depth description of the smart contract code in Solidity, how to modify it, and how you can deploy it yourself can be found [here](./contract/README.md).
-
 ### Frontend
 
 The frontend is an easy-to-use web application that connects to the Smart Contract. Its purpose is to allow Statekeepers to easily add/ remove trusted issuer DIDs, create proposals, and vote on proposals in an easily digestible GUI.
 
 ![frontend](./img/frontend.png)
 
-It is a React app that uses web3.js to connect to an Ethereum wallet in the form of MetaMask. MetaMask is the bridge between the frontend and the smart contract on the Ethereum network and allows to retrieve or modify the state of the contract. Modification happen in the form of transactions to the smart contract that are signed and send via MetaMask in a user friendly way to the Ethereum blockchain. 
+It is a React app that uses web3.js to connect to an Ethereum wallet in the form of MetaMask. MetaMask is the bridge between the frontend and the smart contract on the Ethereum network and allows to retrieve or modify the state of the contract. Modifications happen in the form of transactions to the smart contract that are signed and send via MetaMask in a user-friendly way to the Ethereum blockchain. 
 
-MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent leaking private keys with which potential rouge actors could illegally modify the trusted issuer list.
+MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent leaking private keys, with which potential rouge actors could illegally modify the trusted issuer list.
 
 The officially hosted frontends can be found here:
 - [Trusted Issuer Registry Dashboard](#)
 - [Trusted Issuer Registry Dashboard (alt)](#)
-
-A more in-depth description of the frontend, how it connects to the Ethereum blockchain, and how you can deploy it yourself can be found [here](./web3-frontend/README.md).
-
-## Setting up MetaMask as a Statekeeper
-
-## FAQ
