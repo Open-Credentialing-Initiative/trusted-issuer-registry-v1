@@ -1,4 +1,5 @@
-# OCI Trusted Issuer List
+![](./img/logo-dark.png#gh-dark-mode-only)
+![](./img/logo-light.png##gh-light-mode-only)
 
 In a trusted and regulated ecosystem, a list of trusted issuing parties is needed. For this purpose, the OCI defined a secure, always-available, and self-governing mechanism to manage and retrieve a list of trusted Decentralized Identifiers (DIDs) belonging to trusted issuers. These issuers are trusted with issuing ATP and identity credentials while enforcing all needed regulations.
 
