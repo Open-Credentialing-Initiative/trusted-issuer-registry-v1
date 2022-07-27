@@ -1,5 +1,15 @@
-![](./img/logo-dark.png#gh-dark-mode-only)
-![](./img/logo-light.png##gh-light-mode-only)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/strumswell/trusted-issuer-registry/main/img/logo-light.png#gh-light-mode-only" width="240"/>
+    <img src="https://raw.githubusercontent.com/strumswell/trusted-issuer-registry/main/img/logo-dark.png#gh-dark-mode-only" width="240"/>
+</p>
+
+[![OCI standard](https://img.shields.io/badge/oci-standard-blue)](https://open-credentialing-initiative.github.io/Digital-Wallet-Conformance-Criteria/latest/)
+[![GitHub contributors](https://badgen.net/github/contributors/Open-Credentialing-Initiative/trusted-issuer-registry)](https://GitHub.com/Open-Credentialing-Initiative/trusted-issuer-registry/graphs/contributors/)
+[![GitHub issues](https://img.shields.io/github/issues/Open-Credentialing-Initiative/trusted-issuer-registry.svg)](https://GitHub.com/Open-Credentialing-Initiative/trusted-issuer-registry/issues/)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/Open-Credentialing-Initiative/trusted-issuer-registry.svg)](https://GitHub.com/Open-Credentialing-Initiative/trusted-issuer-registry/pull/)
+---
+
+## Introduction
 
 In a trusted and regulated ecosystem, a list of trusted issuing parties is needed. For this purpose, the OCI defined a secure, always-available, and self-governing mechanism to manage and retrieve a list of trusted Decentralized Identifiers (DIDs) belonging to trusted issuers. These issuers are trusted with issuing ATP and identity credentials while enforcing all needed regulations.
 
