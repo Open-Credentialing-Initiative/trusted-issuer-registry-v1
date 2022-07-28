@@ -1,0 +1,31 @@
+{
+  "name": "js-example",
+  "version": "1.0.0",
+  "description": "Accessing the trusted isser list in JavaScript",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Open-Credentialing-Initiative/trusted-issuer-registry.git"
+  },
+  "keywords": [
+    "ssi",
+    "trusted",
+    "issuer",
+    "registry"
+  ],
+  "author": "Philipp Bolte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Open-Credentialing-Initiative/trusted-issuer-registry/issues"
+  },
+  "homepage": "https://github.com/Open-Credentialing-Initiative/trusted-issuer-registry#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "web3": "^1.7.4"
+  }
+}
