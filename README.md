@@ -58,9 +58,9 @@ The trusted entities that can manage the trusted issuer list are called "Stateke
 If a voting proposal got enough approvals, a Statekeeper can instruct the smart contract to enforce the proposal. This could be adding/ removing a trusted issuer DID or a Statekeeper from the contract state.
 
 The officially deployed versions of the trusted issuer registry can be found here:
-- [Production (Mainnet)](#)
-- [Development (Ropsten)](#)
-- [Development (Ropsten, without Voting)](#)
+- [Production (Mainnet, no deployed yet)](#)
+- [Development (Ropsten)](https://ropsten.etherscan.io/address/0xd9dbAb3757d0327c461eFf7371b494Bb45BB016f)
+- [Development (Ropsten, without Voting, not deployed yet)](#)
 
 ### Frontend
 
@@ -73,5 +73,5 @@ It is a React app that uses web3.js to connect to an Ethereum wallet in the form
 MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent leaking private keys, with which potential rouge actors could illegally modify the trusted issuer list.
 
 The officially hosted frontends can be found here:
-- [Trusted Issuer Registry Dashboard](#)
-- [Trusted Issuer Registry Dashboard (alt)](#)
+- [Trusted Issuer Registry Dashboard](https://ropsten-trusted-issuers.netlify.app/)
+- [Trusted Issuer Registry Dashboard (alt, not deployed yet)](https://ropsten-trusted-issuers.netlify.app/)
