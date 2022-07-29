@@ -141,8 +141,8 @@ contract TrustedIssuerList {
         }
 
         if (index > -1) {
-        // Move to be delete element to last position and then pop it out -> this prevents "gaps" in the array
-        trustedIssuers.keys[uint(index)] = trustedIssuers.keys[trustedIssuers.keys.length - 1];
+            // Move to be delete element to last position and then pop it out -> this prevents "gaps" in the array
+            trustedIssuers.keys[uint(index)] = trustedIssuers.keys[trustedIssuers.keys.length - 1];
             trustedIssuers.keys.pop();
         } else {
             revert("This DID is not a Trusted Issuer!");
@@ -154,6 +154,11 @@ contract TrustedIssuerList {
         return trustedIssuers.keys;
     }
 
+    // This will be called by verifiers to check for a singular DID
+    function isTrustedIssuer(string memory _issuerDID) public view returns (bool) {
+        return trustedIssuers.map[_issuerDID];
+    }
+
     // This removes all bytecode from the contract address
     function killContract() internal {
         selfdestruct(payable(msg.sender));
@@ -163,10 +168,6 @@ contract TrustedIssuerList {
 
     function getNeededVotes(uint _proposalId) public view returns (uint neededVotes) {
         return((statekeepers.keys.length * neededAcceptanceRate[proposals[_proposalId].proposalType]) / 100);
-    }
-
-    function getStatekeeperLength() public view returns (uint num) {
-        return(statekeepers.keys.length);
     }
 
     // Structs and Enums

@@ -3,6 +3,11 @@ import {AbiItem} from "web3-utils";
 export const CONTRACT_ADDRESS = '0xd9dbAb3757d0327c461eFf7371b494Bb45BB016f';
 export const CONTRACT_ABI: AbiItem[] = [
   {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "inputs": [
       {
         "internalType": "string",
@@ -52,42 +57,6 @@ export const CONTRACT_ABI: AbiItem[] = [
       }
     ],
     "name": "enforceProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_issuerDID",
-        "type": "string"
-      }
-    ],
-    "name": "removeTrustedIssuer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_proposalId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "_yea",
-        "type": "bool"
-      }
-    ],
-    "name": "vote",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -163,19 +132,6 @@ export const CONTRACT_ABI: AbiItem[] = [
   },
   {
     "inputs": [],
-    "name": "getStatekeeperLength",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "num",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "getStatekeepers",
     "outputs": [
       {
@@ -198,6 +154,56 @@ export const CONTRACT_ABI: AbiItem[] = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_issuerDID",
+        "type": "string"
+      }
+    ],
+    "name": "isTrustedIssuer",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_issuerDID",
+        "type": "string"
+      }
+    ],
+    "name": "removeTrustedIssuer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_proposalId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_yea",
+        "type": "bool"
+      }
+    ],
+    "name": "vote",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ];

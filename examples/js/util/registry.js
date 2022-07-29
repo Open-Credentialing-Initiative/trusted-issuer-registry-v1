@@ -22,4 +22,8 @@ export class Registry {
   async getTrustedIssuers() {
     return this.contract.methods.getTrustedIssuers().call()
   }
+
+  async isTrustedIssuer(issuerDID) {
+    return this.contract.methods.isTrustedIssuer(issuerDID).call()
+  }
 }
