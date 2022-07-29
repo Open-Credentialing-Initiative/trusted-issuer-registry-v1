@@ -59,7 +59,7 @@ If a voting proposal got enough approvals, a Statekeeper can instruct the smart 
 
 The officially deployed versions of the trusted issuer registry can be found here:
 - [Production (Mainnet, no deployed yet)](#)
-- [Development (Ropsten)](https://ropsten.etherscan.io/address/0xd9dbAb3757d0327c461eFf7371b494Bb45BB016f)
+- [Development (Ropsten)](https://ropsten.etherscan.io/address/0x158b6823b7D5225f9B250389bd44d4077046D608)
 - [Development (Ropsten, without Voting, not deployed yet)](#)
 
 ### Frontend
