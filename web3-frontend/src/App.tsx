@@ -1,13 +1,20 @@
 import './App.css';
 import {useEffect, useState} from 'react';
 import Web3 from 'web3';
-import {CONTRACT_ABI, CONTRACT_ADDRESS} from './config';
+import {CONTRACT_ABI, CONTRACT_ADDRESS_ROPSTEN, CONTRACT_ADDRESS_ROPSTEN_NOGOV} from './config';
 import {Contract} from "web3-eth-contract"
 import {InputTypes} from "./components/InputModal";
 import LoadingScreen from "./components/LoadingScreen";
 import ContractSection from "./components/ContractSection";
 import ProposalCard, {ProposalState, ProposalType} from "./components/ProposalCard";
 import {CollectionIcon} from "@heroicons/react/outline";
+import {Fragment} from 'react'
+import {Menu, Transition} from '@headlessui/react'
+import {ChevronDownIcon} from '@heroicons/react/solid'
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 function App() {
   const [account, setAccount] = useState<string>("");
@@ -16,7 +23,8 @@ function App() {
   const [trustedIssuers, setTrustedIssuers] = useState<string[]>(["No Trusted Issuers defined yet."]);
   const [proposals, setProposals] = useState<[]>([]);
   const [contract, setContract] = useState<Contract>();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [selectedContract, setSelectedContract] = useState(CONTRACT_ADDRESS_ROPSTEN);
 
   const [web3Ref, setWeb3Ref] = useState<Web3>()
 
@@ -32,10 +40,14 @@ function App() {
     }
   }, [account]);
 
+  useEffect(() => {
+    initialize();
+  }, [selectedContract])
+
   async function initialize() {
     const web3 = new Web3(Web3.givenProvider || 'http://localhost:7545');
     const accounts = await web3.eth.requestAccounts();
-    const contract: Contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+    const contract: Contract = new web3.eth.Contract(CONTRACT_ABI, selectedContract);
     const statekeepers = await contract.methods.getStatekeepers().call()
     const trustedIssuers = await contract.methods.getTrustedIssuers().call()
     const proposals = await contract.methods.getProposals().call()
@@ -164,10 +176,78 @@ function App() {
                   className={"absolute w-3 h-3 " + (account ? "bg-green-500" : "bg-orange-400") + " border-1 rounded-full animate-pulse"}/>
                 <p className="ml-5">{account ? account : "Waiting for Wallet"}</p>
                </span>
-              <span
-                className="inline-flex items-center px-3 py-0.5 ml-1 rounded-full text-sm truncate font-medium bg-white text-indigo-600">
-                <a href={"https://ropsten.etherscan.io/address/" + CONTRACT_ADDRESS} target="_blank">To Contract</a>
-               </span>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button
+                    className="inline-flex items-center px-3 py-0.5 ml-1 rounded-full text-sm truncate font-medium bg-white text-indigo-600">
+                    {selectedContract === CONTRACT_ADDRESS_ROPSTEN ? "Ropsten" : "Ropsten (no governance)"}
+                    <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true"/>
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items
+                    className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({active}) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                              'block px-4 py-2 text-sm'
+                            )}
+                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_ROPSTEN)}
+                          >
+                            <div className="flex gap-2">
+                              {selectedContract === CONTRACT_ADDRESS_ROPSTEN &&
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                              }
+                              <span className={selectedContract !== CONTRACT_ADDRESS_ROPSTEN ? "pl-7" : ""}>Ropsten</span>
+                            </div>
+
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({active}) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                              'block px-4 py-2 text-sm'
+                            )}
+                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_ROPSTEN_NOGOV)}
+                          >
+                            <div className="flex gap-2">
+                              {selectedContract === CONTRACT_ADDRESS_ROPSTEN_NOGOV &&
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                              }
+                              <span className={selectedContract !== CONTRACT_ADDRESS_ROPSTEN_NOGOV ? "pl-7" : ""}>Ropsten (no governance)</span>
+                            </div>
+                          </a>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
             </div>
           </div>
         </nav>
@@ -214,9 +294,11 @@ function App() {
                       }
                     </div>
                     :
-                    <div className="mt-5 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <div
+                      className="mt-5 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       <CollectionIcon className="mx-auto h-12 w-12 text-gray-400 stroke-1"/>
-                      <span className="mt-2 block text-sm font-medium text-gray-900"> No open proposals to vote on. </span>
+                      <span
+                        className="mt-2 block text-sm font-medium text-gray-900"> No open proposals to vote on. </span>
                     </div>
                 }
               </div>

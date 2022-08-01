@@ -1,6 +1,7 @@
 import {AbiItem} from "web3-utils";
 
-export const CONTRACT_ADDRESS = '0x158b6823b7D5225f9B250389bd44d4077046D608';
+export const CONTRACT_ADDRESS_ROPSTEN = '0x158b6823b7D5225f9B250389bd44d4077046D608';
+export const CONTRACT_ADDRESS_ROPSTEN_NOGOV = '0x4A678C5AA932DfBcc0def48114e7D5e66720A637';
 export const CONTRACT_ABI: AbiItem[] = [
   {
     "inputs": [],
