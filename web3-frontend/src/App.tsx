@@ -1,5 +1,5 @@
 import './App.css';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, Fragment} from 'react';
 import Web3 from 'web3';
 import {CONTRACT_ABI, CONTRACT_ADDRESS_ROPSTEN, CONTRACT_ADDRESS_ROPSTEN_NOGOV} from './config';
 import {Contract} from "web3-eth-contract"
@@ -8,7 +8,6 @@ import LoadingScreen from "./components/LoadingScreen";
 import ContractSection from "./components/ContractSection";
 import ProposalCard, {ProposalState, ProposalType} from "./components/ProposalCard";
 import {CollectionIcon} from "@heroicons/react/outline";
-import {Fragment} from 'react'
 import {Menu, Transition} from '@headlessui/react'
 import {ChevronDownIcon} from '@heroicons/react/solid'
 
@@ -18,7 +17,6 @@ function classNames(...classes: string[]) {
 
 function App() {
   const [account, setAccount] = useState<string>("");
-  const [owners, setOwners] = useState<string[]>(["No Owners defined yet."]);
   const [statekeepers, setStatekeepers] = useState<string[]>(["No Statekeepers defined yet."]);
   const [trustedIssuers, setTrustedIssuers] = useState<string[]>(["No Trusted Issuers defined yet."]);
   const [proposals, setProposals] = useState<[]>([]);
@@ -79,16 +77,13 @@ function App() {
     if (contract) {
       try {
         setLoading(true);
-        //setRemovingIssuer(true);
         await contract.methods.removeTrustedIssuer(did).send({from: account});
-        //setRemovingIssuer(false);
         const trustedIssuers = await contract.methods.getTrustedIssuers().call()
         setTrustedIssuers(trustedIssuers);
         setLoading(false);
       } catch (err) {
         console.log(err);
         setLoading(false);
-        //setRemovingIssuer(false);
       }
     }
   }

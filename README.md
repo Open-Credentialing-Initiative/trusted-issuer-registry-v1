@@ -74,4 +74,4 @@ MetaMask keeps track of all your Ethereum accounts, their transactions, and has 
 
 The officially hosted frontends can be found here:
 - [Trusted Issuer Registry Dashboard](https://ropsten-trusted-issuers.netlify.app/)
-- [Trusted Issuer Registry Dashboard (alt)](https://ropsten-trusted-issuers-feat-strumswell.vercel.app/)
+- [Trusted Issuer Registry Dashboard (alt)](https://ropsten-trusted-issuers.vercel.app/)
