@@ -16,7 +16,7 @@
 
 ## Introduction
 
-In a trusted and regulated ecosystem, a list of trusted issuing parties is needed. For this purpose, the OCI defined a secure, always-available, and self-governing mechanism to manage and retrieve a list of trusted Decentralized Identifiers (DIDs) belonging to trusted issuers. These issuers are trusted with issuing ATP and identity credentials while enforcing all needed regulations.
+In a trusted and regulated ecosystem, a list of trusted issuing parties is needed. For this purpose, the OCI defined a secure, always-available, and self-governing mechanism to manage and retrieve a list of trusted Decentralized Identifiers (DIDs) belonging to trusted issuers. These issuers are trusted with issuing ATP and identity credentials while observing all needed regulations.
 
 For this purpose, an open, trustless, and decentralized network that is able to run arbitrary programs was chosen: The Ethereum network. The programs you can run on it are called "Smart Contracts". Those are self-contained programs that can store and manipulate their state.
 
@@ -24,7 +24,7 @@ This repository contains code and documentation for a trusted issuer registry sm
 
 ## Goals
 
-The chosen approach is aiming to enforce the following policies:
+The chosen approach aims to enforce the following policies:
 
 - Always available: Calling the trusted issuer list is an integral part while verifying ATP or identity credentials, so it should be always available.
 - Trustless: The architecture and the execution of the trusted issuer registry should not be owned and controlled by a single entity.
@@ -34,7 +34,7 @@ The chosen approach is aiming to enforce the following policies:
 
 ## Architecture
 
-The smart contract containing the trusted issuer registry is deployed to the Ethereum blockchain and acts as a backend. It's state and methods can be accessed via an Ethereum node, e.g., an OCI owned one, that exposes all needed RPC methods or a service like [Infura](https://infura.io/).
+The smart contract containing the trusted issuer registry is deployed to the Ethereum blockchain and acts as a backend. Its state and methods can be accessed via an Ethereum node, e.g., an OCI-owned one, that exposes all needed RPC methods or a service like [Infura](https://infura.io/).
 
 The following two sections will go into more detail on what both the smart contract and the frontend do and how they work.
 
@@ -70,8 +70,36 @@ The frontend is an easy-to-use web application that connects to the Smart Contra
 
 It is a React app that uses web3.js to connect to an Ethereum wallet in the form of MetaMask. MetaMask is the bridge between the frontend and the smart contract on the Ethereum network and allows to retrieve or modify the state of the contract. Modifications happen in the form of transactions to the smart contract that are signed and send via MetaMask in a user-friendly way to the Ethereum blockchain. 
 
-MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent leaking private keys, with which potential rouge actors could illegally modify the trusted issuer list.
+MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent the leaking of private keys with which potential rouge actors could illegally modify the trusted issuer list.
 
 The officially hosted frontends can be found here:
 - [Trusted Issuer Registry Dashboard](https://ropsten-trusted-issuers.netlify.app/)
 - [Trusted Issuer Registry Dashboard (alt)](https://ropsten-trusted-issuers.vercel.app/)
+
+---
+
+## 🤝 Contributing
+
+OCI encourages contributions from OCI member and non-member companies and individuals. 
+Please send issues and pull requests by following our processes and agreements. Feel free to check the issues page.
+
+**By contributing, companies and individuals certify the assertions made in the [Developer's Certificate of Origin](https://developercertificate.org/).**
+
+## 🏷️ Licence
+
+By submitting their contribution to OCI, the contributor certifies that they have the right to submit it under the open source license indicated here.
+
+**This project is [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)-licensed.**
+
+You may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, material
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Copyright © 2022 Named editors. Contributors to [OCI](https://www.oc-i.org/).
