@@ -1,7 +1,7 @@
 import './App.css';
 import {useEffect, useState, Fragment} from 'react';
 import Web3 from 'web3';
-import {CONTRACT_ABI, CONTRACT_ADDRESS_ROPSTEN, CONTRACT_ADDRESS_ROPSTEN_NOGOV} from './config';
+import {CONTRACT_ABI, CONTRACT_ADDRESS_GOERLI, CONTRACT_ADDRESS_GOERLI_NOGOV} from './config';
 import {Contract} from "web3-eth-contract"
 import {InputTypes} from "./components/InputModal";
 import LoadingScreen from "./components/LoadingScreen";
@@ -22,7 +22,7 @@ function App() {
   const [proposals, setProposals] = useState<[]>([]);
   const [contract, setContract] = useState<Contract>();
   const [loading, setLoading] = useState(false);
-  const [selectedContract, setSelectedContract] = useState(CONTRACT_ADDRESS_ROPSTEN);
+  const [selectedContract, setSelectedContract] = useState(CONTRACT_ADDRESS_GOERLI);
 
   const [web3Ref, setWeb3Ref] = useState<Web3>()
 
@@ -175,7 +175,7 @@ function App() {
                 <div>
                   <Menu.Button
                     className="inline-flex items-center px-3 py-0.5 ml-1 rounded-full text-sm truncate font-medium bg-white text-indigo-600">
-                    {selectedContract === CONTRACT_ADDRESS_ROPSTEN ? "Ropsten" : "Ropsten (no governance)"}
+                    {selectedContract === CONTRACT_ADDRESS_GOERLI ? "Goerli" : "Goerli (no governance)"}
                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true"/>
                   </Menu.Button>
                 </div>
@@ -200,17 +200,17 @@ function App() {
                               active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                               'block px-4 py-2 text-sm'
                             )}
-                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_ROPSTEN)}
+                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_GOERLI)}
                           >
                             <div className="flex gap-2">
-                              {selectedContract === CONTRACT_ADDRESS_ROPSTEN &&
+                              {selectedContract === CONTRACT_ADDRESS_GOERLI &&
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor" stroke-width="2">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
                               }
-                              <span className={selectedContract !== CONTRACT_ADDRESS_ROPSTEN ? "pl-7" : ""}>Ropsten</span>
+                              <span className={selectedContract !== CONTRACT_ADDRESS_GOERLI ? "pl-7" : ""}>Goerli</span>
                             </div>
 
                           </a>
@@ -224,17 +224,17 @@ function App() {
                               active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                               'block px-4 py-2 text-sm'
                             )}
-                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_ROPSTEN_NOGOV)}
+                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_GOERLI_NOGOV)}
                           >
                             <div className="flex gap-2">
-                              {selectedContract === CONTRACT_ADDRESS_ROPSTEN_NOGOV &&
+                              {selectedContract === CONTRACT_ADDRESS_GOERLI_NOGOV &&
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor" stroke-width="2">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
                               }
-                              <span className={selectedContract !== CONTRACT_ADDRESS_ROPSTEN_NOGOV ? "pl-7" : ""}>Ropsten (no governance)</span>
+                              <span className={selectedContract !== CONTRACT_ADDRESS_GOERLI_NOGOV ? "pl-7" : ""}>Goerli (no governance)</span>
                             </div>
                           </a>
                         )}

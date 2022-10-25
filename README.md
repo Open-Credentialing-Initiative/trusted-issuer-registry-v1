@@ -68,7 +68,7 @@ The frontend is an easy-to-use web application that connects to the Smart Contra
 
 ![frontend](./img/frontend.png)
 
-It is a React app that uses web3.js to connect to an Ethereum wallet in the form of MetaMask. MetaMask is the bridge between the frontend and the smart contract on the Ethereum network and allows to retrieve or modify the state of the contract. Modifications happen in the form of transactions to the smart contract that are signed and send via MetaMask in a user-friendly way to the Ethereum blockchain. 
+It is a React app that uses web3.js to connect to an Ethereum wallet in the form of MetaMask. MetaMask is the bridge between the frontend and the smart contract on the Ethereum network and allows to retrieve or modify the state of the contract. Modifications happen in the form of transactions to the smart contract that are signed and send via MetaMask in a user-friendly way to the Ethereum blockchain.
 
 MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent the leaking of private keys with which potential rouge actors could illegally modify the trusted issuer list.
 
@@ -80,7 +80,7 @@ The officially hosted frontends can be found here:
 
 ## 🤝 Contributing
 
-OCI encourages contributions from OCI member and non-member companies and individuals. 
+OCI encourages contributions from OCI member and non-member companies and individuals.
 Please send issues and pull requests by following our processes and agreements. Feel free to check the issues page.
 
 **By contributing, companies and individuals certify the assertions made in the [Developer's Certificate of Origin](https://developercertificate.org/).**
@@ -94,7 +94,7 @@ By submitting their contribution to OCI, the contributor certifies that they hav
 You may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-   [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 Unless required by applicable law or agreed to in writing, material
 distributed under the License is distributed on an "AS IS" BASIS,
