@@ -1,0 +1,249 @@
+{
+	"compiler": {
+		"version": "0.8.6+commit.11564f7e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_issuerDID",
+						"type": "string"
+					}
+				],
+				"name": "addTrustedIssuer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "enum TrustedIssuerList.ProposalType",
+						"name": "_proposalType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "address",
+						"name": "_statekeeper",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_newRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum TrustedIssuerList.ProposalType",
+						"name": "_rateType",
+						"type": "uint8"
+					}
+				],
+				"name": "createProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "enforceProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "getNeededVotes",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "neededVotes",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getProposals",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "enum TrustedIssuerList.ProposalType",
+								"name": "proposalType",
+								"type": "uint8"
+							},
+							{
+								"internalType": "address",
+								"name": "statekeeper",
+								"type": "address"
+							},
+							{
+								"internalType": "enum TrustedIssuerList.ProposalType",
+								"name": "rateType",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "rate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address[]",
+								"name": "yea",
+								"type": "address[]"
+							},
+							{
+								"internalType": "address[]",
+								"name": "nay",
+								"type": "address[]"
+							},
+							{
+								"internalType": "enum TrustedIssuerList.State",
+								"name": "state",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct TrustedIssuerList.Proposal[]",
+						"name": "allProposals",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getStatekeepers",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getTrustedIssuers",
+				"outputs": [
+					{
+						"internalType": "string[]",
+						"name": "",
+						"type": "string[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_issuerDID",
+						"type": "string"
+					}
+				],
+				"name": "isTrustedIssuer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_issuerDID",
+						"type": "string"
+					}
+				],
+				"name": "removeTrustedIssuer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_proposalId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "_yea",
+						"type": "bool"
+					}
+				],
+				"name": "vote",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"trusted_issuer_registry.sol": "TrustedIssuerList"
+		},
+		"evmVersion": "berlin",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"trusted_issuer_registry.sol": {
+			"keccak256": "0x1e4b7ef4242d0e6753a8b66bd0fc074c7faad4d53142b6be2503c08dd74d7062",
+			"urls": [
+				"bzz-raw://97b4a9e0a75f59f515c4af1dc31ef8a7f7a72e0a2d7b69761c95cdfa6ce222ef",
+				"dweb:/ipfs/QmXZ4JBapxzexmBAzAooMH3spzH7xSseaidzQSYaewndrA"
+			]
+		}
+	},
+	"version": 1
+}
