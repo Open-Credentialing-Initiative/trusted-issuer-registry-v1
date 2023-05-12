@@ -73,8 +73,24 @@ It is a React app that uses web3.js to connect to an Ethereum wallet in the form
 MetaMask keeps track of all your Ethereum accounts, their transactions, and has a direct connection to the Ethereum blockchain. OCI Statekeepers are obligated to use a so-called hardware wallet in combination with MetaMask. In this case, a physical device stores the private keys of your Ethereum accounts and also signs transactions. In this mode, MetaMask only forwards your signed transactions to the Ethereum blockchain. This a needed security measure to prevent the leaking of private keys with which potential rouge actors could illegally modify the trusted issuer list.
 
 The officially hosted frontends can be found here:
-- [Trusted Issuer Registry Dashboard](https://ropsten-trusted-issuers.netlify.app/)
-- [Trusted Issuer Registry Dashboard (alt)](https://ropsten-trusted-issuers.vercel.app/)
+- [Trusted Issuer Registry Dashboard](https://ropsten-trusted-issuers.vercel.app/)
+
+## Deployments
+
+The trusted issuer registry smart contract is deployed to the Ethereum blockchain. The following table contains all deployments of the smart contract and their intended use cases.
+
+| Environment | Network | Contract Address                                                                                                             | Governance | Use Case                                                                                                                            |
+|-------------|---------|------------------------------------------------------------------------------------------------------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| TBD         | Mainnet | TBD                                                                                                                          | Yes        | Production deployment                                                                                                               |
+| STK-INT     | Goerli  | [0xDfC7aCC61c532350a562018d627c6fe6aBBca5e8](https://goerli.etherscan.io/address/0xDfC7aCC61c532350a562018d627c6fe6aBBca5e8) | Yes        | Development - Integration testing for OCI Statekeepers. Only approved OCI Statekeepers can add/ remove trusted issuer DIDs.         |
+| STK-WLT     | Goerli  | [0xfAc0eac761d4b589b471e461F247059b2f9A8B85](https://goerli.etherscan.io/address/0xfAc0eac761d4b589b471e461F247059b2f9A8B85) | Yes        | Development - Integration testing for OCI wallet providers. Only approved OCI wallet providers can add/ remove trusted issuer DIDs. |
+| STK-PBL     | Goerli  | [0x2b219C6e76A8Df00Aa90155620078d56a6e3f26c](https://goerli.etherscan.io/address/0x2b219C6e76A8Df00Aa90155620078d56a6e3f26c) | No         | Development - Open integration playground without any governance. Anyone can add/ remove trusted issuer DIDs.                       |
+
+Make sure to use the appropriate environment for your testing purposes. Access to the governed environments can be requested in the issues section of this repository.
+
+## Usage & Integration
+
+tbd
 
 ---
 
