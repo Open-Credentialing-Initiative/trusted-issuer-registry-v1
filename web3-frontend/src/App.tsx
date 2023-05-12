@@ -1,7 +1,10 @@
 import './App.css';
 import {useEffect, useState, Fragment} from 'react';
 import Web3 from 'web3';
-import {CONTRACT_ABI, CONTRACT_ADDRESS_GOERLI, CONTRACT_ADDRESS_GOERLI_NOGOV} from './config';
+import {
+  CONTRACT_ABI, CONTRACT_ADDRESS_GOERLI_PBL,
+  CONTRACT_ADDRESS_GOERLI_STK, CONTRACT_ADDRESS_GOERLI_WLT
+} from './config';
 import {Contract} from "web3-eth-contract"
 import {InputTypes} from "./components/InputModal";
 import LoadingScreen from "./components/LoadingScreen";
@@ -22,7 +25,7 @@ function App() {
   const [proposals, setProposals] = useState<[]>([]);
   const [contract, setContract] = useState<Contract>();
   const [loading, setLoading] = useState(false);
-  const [selectedContract, setSelectedContract] = useState(CONTRACT_ADDRESS_GOERLI);
+  const [selectedContract, setSelectedContract] = useState(CONTRACT_ADDRESS_GOERLI_STK);
 
   const [web3Ref, setWeb3Ref] = useState<Web3>()
 
@@ -48,13 +51,16 @@ function App() {
     const contract: Contract = new web3.eth.Contract(CONTRACT_ABI, selectedContract);
     const statekeepers = await contract.methods.getStatekeepers().call()
     const trustedIssuers = await contract.methods.getTrustedIssuers().call()
-    const proposals = await contract.methods.getProposals().call()
+
+    if (selectedContract === CONTRACT_ADDRESS_GOERLI_STK) {
+      const proposals = await contract.methods.getProposals().call()
+      setProposals(proposals);
+    }
 
     setWeb3Ref(web3)
     setAccount(accounts[0]);
     setStatekeepers(statekeepers);
     setTrustedIssuers(trustedIssuers);
-    setProposals(proposals);
     setContract(contract as any);
   }
 
@@ -133,6 +139,36 @@ function App() {
     }
   }
 
+  async function addStatekeeper(address: string) {
+    if (contract) {
+      try {
+        setLoading(true);
+        await contract.methods.addStatekeeper(address).send({from: account});
+        setLoading(false);
+        const statekeepers = await contract.methods.getStatekeepers().call()
+        setStatekeepers(statekeepers);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    }
+  }
+
+  async function removeStatekeeper(address: string) {
+    if (contract) {
+      try {
+        setLoading(true);
+        await contract.methods.removeStatekeeper(address).send({from: account});
+        setLoading(false);
+        const statekeepers = await contract.methods.getStatekeepers().call()
+        setStatekeepers(statekeepers);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    }
+  }
+
   async function enforceProposal(proposalId: number) {
     if (contract) {
       try {
@@ -175,7 +211,21 @@ function App() {
                 <div>
                   <Menu.Button
                     className="inline-flex items-center px-3 py-0.5 ml-1 rounded-full text-sm truncate font-medium bg-white text-indigo-600">
-                    {selectedContract === CONTRACT_ADDRESS_GOERLI ? "Goerli" : "Goerli (no governance)"}
+                    {(() => {
+                      switch (selectedContract) {
+                        case CONTRACT_ADDRESS_GOERLI_STK:
+                          return "STK-INT (Goerli)"
+                          break;
+                        case CONTRACT_ADDRESS_GOERLI_WLT:
+                          return "WLT-INT (Goerli)"
+                          break;
+                        case CONTRACT_ADDRESS_GOERLI_PBL:
+                          return "PBL-INT (Goerli)"
+                          break;
+                        default:
+                          return "Unknown contract"
+                      }
+                    })()}
                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true"/>
                   </Menu.Button>
                 </div>
@@ -200,17 +250,17 @@ function App() {
                               active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                               'block px-4 py-2 text-sm'
                             )}
-                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_GOERLI)}
+                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_GOERLI_STK)}
                           >
                             <div className="flex gap-2">
-                              {selectedContract === CONTRACT_ADDRESS_GOERLI &&
+                              {selectedContract === CONTRACT_ADDRESS_GOERLI_STK &&
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
                                      viewBox="0 0 24 24"
-                                     stroke="currentColor" stroke-width="2">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                     stroke="currentColor" strokeWidth="2">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
                               }
-                              <span className={selectedContract !== CONTRACT_ADDRESS_GOERLI ? "pl-7" : ""}>Goerli</span>
+                              <span className={selectedContract !== CONTRACT_ADDRESS_GOERLI_STK ? "pl-7" : ""}>STK-INT (Goerli)</span>
                             </div>
 
                           </a>
@@ -224,17 +274,40 @@ function App() {
                               active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                               'block px-4 py-2 text-sm'
                             )}
-                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_GOERLI_NOGOV)}
+                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_GOERLI_WLT)}
                           >
                             <div className="flex gap-2">
-                              {selectedContract === CONTRACT_ADDRESS_GOERLI_NOGOV &&
+                              {selectedContract === CONTRACT_ADDRESS_GOERLI_WLT &&
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor" stroke-width="2">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
                               }
-                              <span className={selectedContract !== CONTRACT_ADDRESS_GOERLI_NOGOV ? "pl-7" : ""}>Goerli (no governance)</span>
+                              <span className={selectedContract !== CONTRACT_ADDRESS_GOERLI_WLT ? "pl-7" : ""}>WLT-INT (Goerli)</span>
+                            </div>
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({active}) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                              'block px-4 py-2 text-sm'
+                            )}
+                            onClick={() => setSelectedContract(CONTRACT_ADDRESS_GOERLI_PBL)}
+                          >
+                            <div className="flex gap-2">
+                              {selectedContract === CONTRACT_ADDRESS_GOERLI_PBL &&
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                              }
+                              <span className={selectedContract !== CONTRACT_ADDRESS_GOERLI_PBL ? "pl-7" : ""}>PBL-INT (Goerli)</span>
                             </div>
                           </a>
                         )}
@@ -253,64 +326,83 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex">
             <h1 className="text-2xl font-semibold text-gray-900">OCI Trusted Issuers</h1>
           </div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-12">
-            <div className="sm:flex sm:items-center">
-              <div className="sm:flex-auto">
-                <h1 className="text-xl font-semibold text-gray-900">Proposals</h1>
-                <p className="mt-2 text-sm text-gray-700">
-                  A list of proposals to be voted on.
-                </p>
-                {
-                  proposals.filter(p => p[6] == ProposalState.IN_PROGRESS).length > 0
-                    ?
-                    <div className="grid grid-flow-row-dense grid-cols-3 gap-7 py-6">
-                      {proposals.map((proposal, id) => {
-                        if (proposal[6] == ProposalState.IN_PROGRESS) {
-                          return (
-                            <ul role="list">
-                              <ProposalCard
-                                proposalId={id}
-                                proposalType={proposal[0]}
-                                proposalState={proposal[6]}
-                                address={proposal[1]}
-                                yeas={proposal[4]}
-                                nays={proposal[5]}
-                                newRate={proposal[3]}
-                                newRateType={proposal[2]}
-                                voteFunc={vote}
-                                enforceFunc={enforceProposal}
-                                currentAccount={account}
-                                contract={contract}
-                              />
-                            </ul>
-                          )
+
+          {selectedContract === CONTRACT_ADDRESS_GOERLI_STK &&
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-12">
+              <div className="sm:flex sm:items-center">
+                <div className="sm:flex-auto">
+                  <h1 className="text-xl font-semibold text-gray-900">Proposals</h1>
+                  <p className="mt-2 text-sm text-gray-700">
+                    A list of proposals to be voted on.
+                  </p>
+                  {
+                    proposals.filter(p => p[6] == ProposalState.IN_PROGRESS).length > 0
+                      ?
+                      <div className="grid grid-flow-row-dense grid-cols-3 gap-7 py-6">
+                        {proposals.map((proposal, id) => {
+                          if (proposal[6] == ProposalState.IN_PROGRESS) {
+                            return (
+                              <ul role="list">
+                                <ProposalCard
+                                  proposalId={id}
+                                  proposalType={proposal[0]}
+                                  proposalState={proposal[6]}
+                                  address={proposal[1]}
+                                  yeas={proposal[4]}
+                                  nays={proposal[5]}
+                                  newRate={proposal[3]}
+                                  newRateType={proposal[2]}
+                                  voteFunc={vote}
+                                  enforceFunc={enforceProposal}
+                                  currentAccount={account}
+                                  contract={contract}
+                                />
+                              </ul>
+                            )
+                          }
+                        })
                         }
-                      })
-                      }
-                    </div>
-                    :
-                    <div
-                      className="mt-5 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      <CollectionIcon className="mx-auto h-12 w-12 text-gray-400 stroke-1"/>
-                      <span
-                        className="mt-2 block text-sm font-medium text-gray-900"> No open proposals to vote on. </span>
-                    </div>
-                }
+                      </div>
+                      :
+                      <div
+                        className="mt-5 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <CollectionIcon className="mx-auto h-12 w-12 text-gray-400 stroke-1"/>
+                        <span
+                          className="mt-2 block text-sm font-medium text-gray-900"> No open proposals to vote on. </span>
+                      </div>
+                  }
+                </div>
               </div>
             </div>
-          </div>
-          <ContractSection inputType={InputTypes.ADDRESS} title={"Statekeepers"}
-                           description={"A list of all the Statekeepers."}
-                           buttonText="Propose Statekeeper" deleteText={"Propose Deletion"} entries={statekeepers}
-                           modalTitle={"Create a proposal for a new statekeeper."}
-                           modalExampleInput={"0x00000..."} modalButtonText={"Propose Address"}
-                           addAction={proposeStatekeeperAddition} removeAction={proposeStatekeeperDeletion}/>
-          <ContractSection inputType={InputTypes.DID} title={"Trusted Issuers"}
-                           description={"A list of all Trusted Issuers"}
-                           buttonText="Add Trusted Issuer" deleteText={"Delete"} entries={trustedIssuers}
-                           modalTitle={"Enter a new DID of a Trusted Issuer"}
-                           modalExampleInput={"did:ethr:..."} modalButtonText={"Add DID"} addAction={addTrustedIssuer}
-                           removeAction={removeTrustedIssuer}/>
+          }
+          {selectedContract === CONTRACT_ADDRESS_GOERLI_STK &&
+            <ContractSection
+              inputType={InputTypes.ADDRESS} title={"Statekeepers"}
+              description={"A list of all the Statekeepers."}
+              buttonText="Propose Statekeeper" deleteText={"Propose Deletion"} entries={statekeepers}
+              modalTitle={"Create a proposal for a new statekeeper."}
+              modalExampleInput={"0x00000..."} modalButtonText={"Propose Address"}
+              addAction={proposeStatekeeperAddition} removeAction={proposeStatekeeperDeletion}
+            />
+          }
+          {selectedContract === CONTRACT_ADDRESS_GOERLI_WLT &&
+            <ContractSection
+              inputType={InputTypes.ADDRESS} title={"Statekeepers"}
+              description={"A list of all the Statekeepers."}
+              buttonText="Add Statekeeper" deleteText={"Delete"} entries={statekeepers}
+              modalTitle={"Add a new statekeeper."}
+              modalExampleInput={"0x00000..."} modalButtonText={"Add Address"}
+              addAction={addStatekeeper} removeAction={removeStatekeeper}
+            />
+          }
+          <ContractSection
+            inputType={InputTypes.DID} title={"Trusted Issuers"}
+            description={"A list of all Trusted Issuers"}
+            buttonText="Add Trusted Issuer" deleteText={"Delete"} entries={trustedIssuers}
+            modalTitle={"Enter a new DID of a Trusted Issuer"}
+            modalExampleInput={"did:ethr:..."} modalButtonText={"Add DID"} addAction={addTrustedIssuer}
+            removeAction={removeTrustedIssuer}
+          />
         </div>
       </main>
     </div>

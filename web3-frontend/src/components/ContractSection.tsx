@@ -72,6 +72,15 @@ export default function ContractSection(props: ContractSectionProps) {
                   </tr>
                   </thead>
                   <tbody className="bg-white">
+                  {
+                    entries.length === 0 &&
+                    <tr>
+                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                        No entries
+                      </td>
+                    </tr>
+
+                  }
                   {entries.map((entry, entryIdx) => (
                     <tr key={entry} className={entryIdx % 2 === 0 ? undefined : 'bg-gray-50'}
                         hidden={entry.includes("0x000000") || (entry.length > 0 ? false : true)}>
