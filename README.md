@@ -75,10 +75,6 @@ could be adding/ removing a trusted issuer DID or a Statekeeper from the contrac
 
 The officially deployed versions of the trusted issuer registry can be found here:
 
-- [Production (Mainnet, no deployed yet)](#)
-- [Development (Ropsten)](https://ropsten.etherscan.io/address/0x158b6823b7D5225f9B250389bd44d4077046D608)
-- [Development (Ropsten, without governance)](https://ropsten.etherscan.io/address/0x4a678c5aa932dfbcc0def48114e7d5e66720a637)
-
 ### Frontend
 
 The frontend is an easy-to-use web application that connects to the Smart Contract. Its purpose is to allow Statekeepers
