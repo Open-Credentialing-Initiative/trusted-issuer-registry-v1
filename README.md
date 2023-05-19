@@ -73,8 +73,6 @@ The trusted entities that can manage the trusted issuer list are called "Stateke
 If a voting proposal got enough approvals, a Statekeeper can instruct the smart contract to enforce the proposal. This
 could be adding/ removing a trusted issuer DID or a Statekeeper from the contract state.
 
-The officially deployed versions of the trusted issuer registry can be found here:
-
 ### Frontend
 
 The frontend is an easy-to-use web application that connects to the Smart Contract. Its purpose is to allow Statekeepers
@@ -133,10 +131,9 @@ things:
 
 If you also intend to modify the state of the contract, e.g. adding a trusted issuer DID, you additionally need a
 *funded* Ethereum account that is allowed to modify the contract state. Only statekeeper are allowed to change the
-contract state on STK-INT and WLT-INT. On PBL-INT, any funded address can modify the contract state. To fund your
+contract state on **STK-INT** and **WLT-INT**. On **PBL-INT**, any funded address can modify the contract state. To fund your
 Ethereum address, you need to send ETH to that specific address. For the Goerli test network, you can use so-called
 faucets to get free ETH. This is a list of well-known faucets:
-
 - https://goerlifaucet.com/
 - https://goerli-faucet.pk910.de/
 - https://faucet.quicknode.com/ethereum/goerli
@@ -144,6 +141,34 @@ faucets to get free ETH. This is a list of well-known faucets:
 **Reading the contract state, e.g. for checking if a DID is a trusted issuer, is free and does not require an Ethereum
 account.** You can find example JavaScript code for reading and writing the contract state in the examples folder of
 this repository.
+
+The following code snippet shows how to read the contract state using the Ethers library for JavaScript:
+
+```javascript
+const { ethers } = require("ethers");
+const CONTRACT_ADDRESS_GOERLI_STK = '...';
+const CONTRACT_ADDRESS_GOERLI_WLT = '...';
+const CONTRACT_ADDRESS_GOERLI_PBL = '...';
+const CONTRACT_ABI = [...];
+
+(async () => {
+  const provider = new ethers.providers.InfuraProvider(
+    "goerli",
+    "INFURA_API_KEY
+  );
+  const contract = new ethers.Contract(CONTRACT_ADDRESS_GOERLI_PBL, CONTRACT_ABI, provider);
+  const did = "did:web:oc-i.org"
+
+  // Check for a single DID
+  const isTrustedIssuer = await contract.isTrustedIssuer(did);
+  console.log(`isTrustedIssuer: ${isTrustedIssuer}`);
+
+  // Get all trusted issuer DIDs
+  const trustedIssuers = await contract.getTrustedIssuers();
+  console.log(`trustedIssuers: ${trustedIssuers}`);
+})()
+```
+You can find the correct contract addresses in the Deployments section of this README and the ABI json in the contract folder of this repository. For more infos check the [Ethers documentation](https://docs.ethers.io/v5/) or [Infura guides](https://docs.infura.io/infura/tutorials/ethereum/send-a-transaction/send-a-transaction). For easily changing the state in test scenarios, we recommend using the OCI Statekeeper frontend mentioned above.
 
 ---
 
