@@ -93,7 +93,7 @@ the leaking of private keys with which potential rouge actors could illegally mo
 
 The officially hosted frontends can be found here:
 
-- [Trusted Issuer Registry Dashboard](https://ropsten-trusted-issuers.vercel.app/)
+- [OCI Trusted Issuer Registry Frontend](https://trusted-issuers.vercel.app/)
 
 ## Deployments
 
@@ -131,21 +131,21 @@ things:
 
 If you also intend to modify the state of the contract, e.g. adding a trusted issuer DID, you additionally need a
 *funded* Ethereum account that is allowed to modify the contract state. Only statekeeper are allowed to change the
-contract state on **STK-INT** and **WLT-INT**. On **PBL-INT**, any funded address can modify the contract state. To fund your
-Ethereum address, you need to send ETH to that specific address. For the Goerli test network, you can use so-called
-faucets to get free ETH. This is a list of well-known faucets:
+contract state on **STK-INT** and **WLT-INT**. On **PBL-INT**, any funded address can modify the contract state. To fund
+your
+Ethereum address, you need to send ETH to an address you control. For the Goerli test network, you can use so-called
+faucets to get free testnet ETH. This is a list of well-known faucets:
+
 - https://goerlifaucet.com/
 - https://goerli-faucet.pk910.de/
 - https://faucet.quicknode.com/ethereum/goerli
 
 **Reading the contract state, e.g. for checking if a DID is a trusted issuer, is free and does not require an Ethereum
-account.** You can find example JavaScript code for reading and writing the contract state in the examples folder of
-this repository.
-
-The following code snippet shows how to read the contract state using the Ethers library for JavaScript:
+account.** The following code snippet demonstrates how to read the contract state using the Ethers library for
+JavaScript:
 
 ```javascript
-const { ethers } = require("ethers");
+const {ethers} = require("ethers");
 const CONTRACT_ADDRESS_GOERLI_STK = '...';
 const CONTRACT_ADDRESS_GOERLI_WLT = '...';
 const CONTRACT_ADDRESS_GOERLI_PBL = '...';
@@ -168,7 +168,12 @@ const CONTRACT_ABI = [...];
   console.log(`trustedIssuers: ${trustedIssuers}`);
 })()
 ```
-You can find the correct contract addresses in the Deployments section of this README and the ABI json in the contract folder of this repository. For more infos check the [Ethers documentation](https://docs.ethers.io/v5/) or [Infura guides](https://docs.infura.io/infura/tutorials/ethereum/send-a-transaction/send-a-transaction). For easily changing the state in test scenarios, we recommend using the OCI Statekeeper frontend mentioned above.
+
+You can find the correct contract addresses in the Deployments section of this README and the ABI json in the contract
+folder of this repository. For more information check
+the [Ethers documentation](https://docs.ethers.io/v5/), [Infura guides](https://docs.infura.io/infura/tutorials/ethereum/send-a-transaction/send-a-transaction),
+or your web3 libraries documentation. For easily changing the state of trusted issuers in test scenarios, we recommend
+using the [OCI Statekeeper frontend](https://trusted-issuers.vercel.app/) mentioned above.
 
 ---
 
