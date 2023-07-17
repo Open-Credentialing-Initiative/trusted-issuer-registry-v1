@@ -2,7 +2,8 @@ import './App.css';
 import {useEffect, useState, Fragment} from 'react';
 import Web3 from 'web3';
 import {
-  CONTRACT_ABI, CONTRACT_ADDRESS_GOERLI_PBL,
+  CONTRACT_ABI,
+  CONTRACT_ADDRESS_GOERLI_PBL,
   CONTRACT_ADDRESS_GOERLI_STK, CONTRACT_ADDRESS_GOERLI_WLT
 } from './config';
 import {Contract} from "web3-eth-contract"
